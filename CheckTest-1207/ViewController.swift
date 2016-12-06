@@ -11,7 +11,7 @@ import UIKit
 
 // MARK: - ViewController
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class ViewController: UIViewController {
     
     
     @IBOutlet var label: UILabel!
@@ -21,7 +21,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     let userDefaults: UserDefaults = UserDefaults.standard
     
     // MARK: UIViewController
-
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -32,10 +32,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         // unwrap textField.text type String? to String
         // textField.textをString? から Stringへアンラップ
-        if let text: String = textField.text {
-            
-            userDefaults.set(text, forKey: "text")
-        }
+        
+        userDefaults.set(textField.text!, forKey: "text")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,10 +42,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         // unwrap userDefaults.string(forKey:) type String? to String
         // userDefaults.string(forKey:)をString? から Stringへアンラップ
-        if let text: String = userDefaults.string(forKey: "text") {
-            
-            self.setOnLabel(withContentsOf: text)
-        }
+        
+        self.setOnLabel(withContentsOf: userDefaults.string(forKey: "text"))
     }
     
     func setOnLabel(withContentsOf str: String) {
@@ -57,10 +53,5 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     // Close keyboard if return key is tapped.
     // Returキーでキーボードを閉じる
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-        textField.resignFirstResponder()
-        return true
-    }
 }
 
