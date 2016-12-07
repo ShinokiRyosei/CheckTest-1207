@@ -11,7 +11,7 @@ import UIKit
 
 // MARK: - ViewController
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBOutlet var label: UILabel!
@@ -32,8 +32,10 @@ class ViewController: UIViewController {
         
         // unwrap textField.text type String? to String
         // textField.textをString? から Stringへアンラップ
-        
-        userDefaults.set(textField.text!, forKey: "text")
+        if let text = textField.text {
+            setOnLabel(withContentsOf: text)
+            userDefaults.set(textField.text!, forKey: "text")
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,8 +44,11 @@ class ViewController: UIViewController {
         
         // unwrap userDefaults.string(forKey:) type String? to String
         // userDefaults.string(forKey:)をString? から Stringへアンラップ
-        
-        self.setOnLabel(withContentsOf: userDefaults.string(forKey: "text"))
+        if let udText = userDefaults.string(forKey: "text") {
+            self.setOnLabel(withContentsOf: udText)
+        } else {
+            return
+        }
     }
     
     func setOnLabel(withContentsOf str: String) {
@@ -52,6 +57,12 @@ class ViewController: UIViewController {
     }
     
     // Close keyboard if return key is tapped.
-    // Returキーでキーボードを閉じる
+    // Returnキーでキーボードを閉じる
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        return true
+    }
+    
 }
-
